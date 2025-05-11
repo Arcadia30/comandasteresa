@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menú Digital</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    .fade-in {
+      animation: fadeIn 0.3s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .btn-hover:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .btn-active:active {
+      transform: translateY(0);
+    }
+    .hidden {
+      display: none;
+    }
+    /* Estilo para el ticket */
+    .ticket {
+      width: 80mm;
+      font-family: Arial, sans-serif;
+      padding: 10px;
+      margin: 0 auto;
+    }
+    .ticket-header {
+      text-align: center;
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .ticket-item {
+      margin-bottom: 5px;
+    }
+    .ticket-total {
+      font-weight: bold;
+      margin-top: 10px;
+      border-top: 1px dashed #000;
+      padding-top: 5px;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <header class="bg-lime-500 text-white p-4 text-center text-2xl font-bold shadow-md">
+    COMANDA DIGUITAL TERE
+  </header>
+
+  <main class="p-4">
+    <!-- Categorías -->
+    <div class="mb-4">
+      <h2 class="text-xl font-semibold mb-2">Categorías</h2>
+      <div class="flex gap-2 flex-wrap">
+        <button onclick="filtrarCategoria('María')" class="bg-lime-400 px-4 py-2 rounded-full text-white btn-hover btn-active">María</button>
+        <button onclick="filtrarCategoria('Teresa')" class="bg-lime-400 px-4 py-2 rounded-full text-white btn-hover btn-active">Teresa</button>
+        <button onclick="filtrarCategoria('Todas')" class="bg-gray-300 px-4 py-2 rounded-full text-black btn-hover btn-active">Todas</button>
+      </div>
+    </div>
+
+    <!-- Productos -->
+    <div id="productosContainer" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <!-- Productos de María -->
+      <!-- Papas -->
+      <div class="producto fade-in" data-categoria="María">
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden h-full">
+          <!-- Cambiar esta URL por la imagen real de las papas -->
+          <img src="IMAGENES/PAPAS.jpg" alt="Papas" class="w-full h-40 object-cover">
+          <div class="p-4">
+            <h3 class="text-lg font-bold">Papas</h3>
+            <p class="text-gray-600">papas fritas</p>
+            <p class="text-lime-600 font-bold mt-2">$40.00</p>
+            <button onclick="openModal('Papas', 'María', ['SIN CATSUP', 'SIN QUESO', 'SIN SALSA'], 40)" class="mt-2 bg-lime-500 text-white px-4 py-2 rounded-full btn-hover btn-active">Agregar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alipapas -->
+      <div class="producto fade-in" data-categoria="María">
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden h-full">
+          <!-- Cambiar esta URL por la imagen real de las alipapas -->
+          <img src="IMAGENES/ALIPAPAS.jpeg" alt="Alipapas" class="w-full h-40 object-cover">
+          <div class="p-4">
+            <h3 class="text-lg font-bold">Alipapas</h3>
+            <p class="text-gray-600">Alipapas</p>
+            <p class="text-lime-600 font-bold mt-2">$65.00</p>
+            <button onclick="openModal('Alipapas', 'María', ['SIN CATSUP', 'SIN QUESO', 'SIN SALSA', 'SIN BBQ', 'SIN TAJIN', 'SIN SALSA INGLESA'], 65)" class="mt-2 bg-lime-500 text-white px-4 py-2 rounded-full btn-hover btn-active">Agregar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alitas -->
+      <div class="producto fade-in" data-categoria="María">
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden h-full">
+          <!-- Cambiar esta URL por la imagen real de las alitas -->
+          <img src="IMAGENES/alitas.jpg" alt="Alitas" class="w-full h-40 object-cover">
+          <div class="p-4">
+            <h3 class="text-lg font-bold">Alitas</h3>
+            <p class="text-gray-600">Alitas fritas</p>
+            <p class="text-lime-600 font-bold mt-2">$55.00</p>
+            <button onclick="openModal('Alitas', 'María', ['SIN BBQ', 'SIN INGLESA', 'SIN TAJIN', 'SIN SALSA'], 55)" class="mt-2 bg-lime-500 text-white px-4 py-2 rounded-full btn-hover btn-active">Ver más</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Waffle -->
+      <div class="producto fade-in" data-categoria="María">
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden h-full">
+          <!-- Cambiar esta URL por la imagen real del waffle -->
+          <img src="IMAGENES/waffles.webp" alt="Waffle" class="w-full h-40 object-cover">
+          <div class="p-4">
+            <h3 class="text-lg font-bold">Waffle</h3>
+            <p class="text-gray-600">Nutella (con extra: gansito, ferrero, chocorrol +$10)</p>
+            <p class="text-lime-600 font-bold mt-2">$45.00</p>
+            <button onclick="openModal('Waffle', 'María', ['Gansito (+$10)', 'Ferrero (+$10)', 'Chocorrol (+$10)', 'Kinder (+$10)'], 45)" class="mt-2 bg-lime-500 text-white px-4 py-2 rounded-full btn-hover btn-active">Agregar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hamburguesas -->
+      <div class="producto fade-in" data-categoria="María">
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden h-full">
+          <!-- Cambiar esta URL por la imagen real de la hamburguesa -->
+          <img src="IMAGENES/HAMBURGESA.avif" alt="Hamburguesa" class="w-full h-40 object-cover">
+          <div class="p-4">
+            <h3 class="text-lg font-bold">Hamburguesa</h3>
+            <p class="text-gray-600">Hamburguesa</p>
+            <p class="text-lime-600 font-bold mt-2">$50.00</p>
+            <button onclick="openModal('Hamburguesa', 'María', ['SIN CHILE', 'SIN JITOMATE', 'SIN CEBOLLA', 'SIN CATSUP', 'SIN MAYONESA', 'CON PIÑA (+$5)'], 50)" class="mt-2 bg-lime-500 text-white px-4 py-2 rounded-full btn-hover btn-active">Agregar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hamburguesa hawaiana -->
+      <div class="producto fade-in" data-categoria="María">
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden h-full">
+          <!-- Cambiar esta URL por la imagen real de la hamburguesa hawaiana -->
+          <img src="IMAGENES/enchiladas.jpg" alt="Hamburguesa hawaiana" class="w-full h-40 object-cover">
+          <div class="p-4">
+            <h3 class="text-lg font-bold">Enchiladas</h3>
+            <p class="text-gray-600">Enchiladas en Salsa Verde</p>
+            <p class="text-lime-600 font-bold mt-2">$35</p>
+            <button onclick="openModal('Enchiladas', 'María', ['DE QUESO', 'DE POLLO', 'SIN CREMA', 'SIN LECHUGA ', 'SIN QUESO'], 35)" class="mt-2 bg-lime-500 text-white px-4 py-2 rounded-full btn-hover btn-active">Agregar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Crepas -->
+      <div class="producto fade-in" data-categoria="María">
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden h-full">
+          <!-- Cambiar esta URL por la imagen real de las crepas -->
+          <img src="IMAGENES/crepa.jpeg" alt="Crepas" class="w-full h-40 object-cover">
+          <div class="p-4">
+            <h3 class="text-lg font-bold">Crepas</h3>
+            <p class="text-gray-600">Crepa con Nutella</p>
+            <p class="text-lime-600 font-bold mt-2">$45.00</p>
+            <button onclick="openModal('Crepas', 'María', ['Gansito (+$10)', 'Ferrero (+$10)', 'Chocorrol (+$10)', 'Kinder (+$10)'], 45)" class="mt-2 bg-lime-500 text-white px-4 py-2 rounded-full btn-hover btn-active">Ver más</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nachos -->
+      <div class="producto fade-in" data-categoria="María">
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden h-full">
+          <!-- Cambiar esta URL por la imagen real de los nachos -->
+          <img src="IMAGENES/nachos.jpg" alt="Nachos" class="w-full h-40 object-cover">
+          <div class="p-4">
+            <h3 class="text-lg font-bold">Nachos</h3>
+            <p class="text-gray-600">Nachos</p>
+            <p class="text-lime-600 font-bold mt-2">$30.00</p>
+            <button onclick="openModal('Nachos', 'María', ['SIN QUESO', 'SIN CATSUP', 'SIN SALSA', 'SIN CHILES DE VINAGRE', 'SIN JITOMATE'], 30)" class="mt-2 bg-lime-500 text-white px-4 py-2 rounded-full btn-hover btn-active">Ver más</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="producto fade-in" data-categoria="María">
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden h-full">
+          <!-- Cambiar esta URL por la imagen real de los nachos -->
+          <img src="IMAGENES/postre.avif" alt="Postre" class="w-full h-40 object-cover">
+          <div class="p-4">
+            <h3 class="text-lg font-bold">Postres</h3>
+            <p class="text-gray-600">Postres</p>
+            <p class="text-lime-600 font-bold mt-2">$00.00</p>
+            <button onclick="openModal('postre', 'María', ['GELATINA (+$15)', 'CREMA (+$30)'], 0)" class="mt-2 bg-lime-500 text-white px-4 py-2 rounded-full btn-hover btn-active">Agregar</button>
+          </div>
+        </div>
+      </div>
+       <div class="producto fade-in" data-categoria="María">
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden h-full">
+          <!-- Cambiar esta URL por la imagen real de los nachos -->
+          <img src="IMAGENES/platano.jpg" alt="Postre" class="w-full h-40 object-cover">
+          <div class="p-4">
+            <h3 class="text-lg font-bold">Platano frito</h3>
+            <p class="text-gray-600">Platano frito y botanero</p>
+            <p class="text-lime-600 font-bold mt-2">$35.00</p>
+            <button onclick="openModal('Platanos', 'María', ['BOTANERO','SIN CREMA', 'SIN MERMELADA', 'SIN CHOCHOS', 'SIN CHOLOCATE', 'SIN LECHERA'], 35)" class="mt-2 bg-lime-500 text-white px-4 py-2 rounded-full btn-hover btn-active">Agregar</button>
+          </div>
+        </div>
+      </div>
+      <div class="producto fade-in" data-categoria="María">
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden h-full">
+          <!-- Cambiar esta URL por la imagen real de los nachos -->
+          <img src="IMAGENES/maruchan.webp" alt="Postre" class="w-full h-40 object-cover">
+          <div class="p-4">
+            <h3 class="text-lg font-bold">Maruchan</h3>
+            <p class="text-gray-600">Postres</p>
+            <p class="text-lime-600 font-bold mt-2">$25.00</p>
+            <button onclick="openModal('Maruchan', 'María', ['PREPARADA (+$5)', 'SIN SALSA'], 25)" class="mt-2 bg-lime-500 text-white px-4 py-2 rounded-full btn-hover btn-active">Agregar</button>
+          </div>
+        </div>
+      </div>
+          <div class="producto fade-in" data-categoria="María">
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden h-full">
+          <!-- Cambiar esta URL por la imagen real de los nachos -->
+          <img src="IMAGENES/CORONA.webp" alt="Postre" class="w-full h-40 object-cover">
+          <div class="p-4">
+            <h3 class="text-lg font-bold">CERVEZA</h3>
+            <p class="text-gray-600">CERVEZA</p>
+            <p class="text-lime-600 font-bold mt-2">$0.00</p>
+            <button onclick="openModal('CERVEZA', 'María', ['LATON,BOTELLA (+$30)', 'FAMILIAR(+$50)', 'MEGA(+$55)', 'AMPOLLETA(+$15)'], 0)" class="mt-2 bg-lime-500 text-white px-4 py-2 rounded-full btn-hover btn-active">Agregar</button>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Refresco -->
+      <div class="producto fade-in" data-categoria="María">
+  <div class="bg-white rounded-2xl shadow-md overflow-hidden h-full">
+    <img src="IMAGENES/REFRESCO.jpeg" alt="Refresco" class="w-full h-40 object-cover">
+    <div class="p-4">
+      <h3 class="text-lg font-bold">Refresco</h3>
+      <p class="text-gray-600">Normal: $25, 2 litros: $30, 2.5 litros: $30, 3 litros: $40</p>
+      <p class="text-lime-600 font-bold mt-2">$25.00-$40.00</p>
+      <button onclick="openModalRefresco()" class="mt-2 bg-lime-500 text-white px-4 py-2 rounded-full btn-hover btn-active">Agregar</button>
+    </div>
+  </div>
+</div>
+
+      <!-- Productos de Teresa -->
+      <!-- Tacos -->
+      <div class="producto fade-in" data-categoria="Teresa">
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden h-full">
+          <!-- Cambiar esta URL por la imagen real de los tacos -->
+          <img src="IMAGENES/TACO.jpg" alt="Tacos" class="w-full h-40 object-cover">
+          <div class="p-4">
+            <h3 class="text-lg font-bold">Tacos</h3>
+            <p class="text-gray-600">Cilantro, cebolla, salsa</p>
+            <p class="text-lime-600 font-bold mt-2">$12.00 c/u</p>
+
+<button onclick="openModal('Tacos', 'Teresa', [' Cilantro', ' Cebolla', ' Salsa'], 12, true)" class="mt-2 bg-lime-500 text-white px-4 py-2 rounded-full btn-hover btn-active">Agregar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sopes -->
+      <div class="producto fade-in" data-categoria="Teresa">
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden h-full">
+          <!-- Cambiar esta URL por la imagen real de los sopes -->
+          <img src="IMAGENES/SOPE.jpg" alt="Sopes" class="w-full h-40 object-cover">
+          <div class="p-4">
+            <h3 class="text-lg font-bold">Sopes</h3>
+            <p class="text-gray-600">Sopes</p>
+            <p class="text-lime-600 font-bold mt-2">$35.00 c/u</p>
+            <button onclick="openModal('Sopes', 'Teresa', ['Cilantro', 'Cebolla', 'Salsa', 'Nopales', 'Queso', 'Frijol'], 35, true)" class="mt-2 bg-lime-500 text-white px-4 py-2 rounded-full btn-hover btn-active">Agregar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gorditas -->
+      <div class="producto fade-in" data-categoria="Teresa">
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden h-full">
+          <!-- Cambiar esta URL por la imagen real de las gorditas -->
+          <img src="IMAGENES/GORDA.webp" alt="Gorditas" class="w-full h-40 object-cover">
+          <div class="p-4">
+            <h3 class="text-lg font-bold">Gorditas</h3>
+            <p class="text-gray-600">Cilantro, cebolla, salsa</p>
+            <p class="text-lime-600 font-bold mt-2">$35.00 c/u</p>
+            <button onclick="openModal('Gorditas', 'Teresa', ['Cilantro', 'Cebolla', 'Salsa', 'Nopales', 'Lechuga', 'Queso'], 35, true)" class="mt-2 bg-lime-500 text-white px-4 py-2 rounded-full btn-hover btn-active">Agregar</button>
+          </div>
+        </div>
+      </div>
+      <div class="producto fade-in" data-categoria="María">
+  <div class="bg-white rounded-2xl shadow-md overflow-hidden h-full">
+    <img src="IMAGENES/personalizado.jpg" alt="Producto personalizado" class="w-full h-40 object-cover">
+    <div class="p-4">
+      <h3 class="text-lg font-bold">Producto Libre</h3>
+      <p class="text-gray-600">Descripción y precio personalizado</p>
+      <p class="text-lime-600 font-bold mt-2">$0.00</p>
+      <button onclick="openModalProductoLibre()" class="mt-2 bg-lime-500 text-white px-4 py-2 rounded-full btn-hover btn-active">Agregar</button>
+    </div>
+  </div>
+</div>
+    </div>
+
+    <!-- Comandas -->
+    <div class="mt-8">
+      <h2 class="text-xl font-bold mb-4">Comandas</h2>
+      <div id="comandasContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+    </div>
+  </main>
+
+  <!-- Modal de producto -->
+  <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden">
+    <div class="bg-white p-6 rounded-xl w-11/12 max-w-md relative">
+      <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-500">&times;</button>
+      <h2 id="modalTitle" class="text-xl font-bold mb-4">Producto</h2>
+      <div class="mb-4">
+        <label class="block mb-1">Cantidad:</label>
+        <input type="number" id="cantidadInput" class="w-full border rounded px-2 py-1" value="1" min="1">
+      </div>
+      
+      <!-- Selector de tipo de carne (solo para productos específicos) -->
+      <div id="carneContainer" class="mb-4 hidden">
+        <label class="block mb-1">Tipo de carne:</label>
+        <select id="carneSelect" class="w-full border rounded px-2 py-1">
+          <option value="Suadero">Suadero</option>
+          <option value="Tripa">Tripa</option>
+          <option value="Longaniza">Longaniza</option>
+          <option value="Campechano">Campechano</option>
+          <option value="Pollo verde">Pollo verde</option>
+          <option value="Chicharrón verde">Chicharrón verde</option>
+          <option value="Tinga">Tinga</option>
+          <option value="Suadero en morita">Suadero en morita</option>
+          <option value="Chicharrón rojo">Chicharrón rojo</option>
+        </select>
+      </div>
+      
+      <div class="mb-4">
+        <label class="block mb-1">Selecciona extras:</label>
+        <div id="extrasContainer"></div>
+      </div>
+      
+      <div class="mb-4">
+        <label class="block mb-1">Comanda:</label>
+        <select id="comandaSelect" class="w-full border rounded px-2 py-1">
+          <option value="Mesa 1">Mesa 1</option>
+          <option value="Mesa 2">Mesa 2</option>
+          <option value="Mesa 3">Mesa 3</option>
+          <option value="Mesa 4">Mesa 4</option>
+          <option value="Para llevar">Para llevar</option>
+        </select>
+      </div>
+      
+      <div class="mb-4">
+        <p class="font-bold">Total: <span id="precioTotal">$0.00</span></p>
+      </div>
+      
+      <button onclick="agregarAComanda()" class="bg-lime-500 text-white px-4 py-2 rounded-full w-full btn-hover btn-active">Agregar a comanda</button>
+    </div>
+  </div>
+
+  <!-- Ticket oculto para generación de PDF -->
+  <div id="ticketTemplate" class="ticket hidden"></div>
+
+ <script>
+  // Inicializar jsPDF
+const { jsPDF } = window.jspdf;
+  
+let productoSeleccionado = '';
+let precioBase = 0;
+let categoriaActual = '';
+let extrasSeleccionados = [];
+let esProductoEspecial = false;
+let comandas = []; 
+
+// Función para producto libre - CORREGIDA
+function openModalProductoLibre() {
+  // Limpiar variables anteriores
+  productoSeleccionado = '';
+  precioBase = 0;
+  
+  document.getElementById('modalTitle').textContent = 'Producto Personalizado';
+  document.getElementById('precioTotal').textContent = '$0.00';
+  document.getElementById('cantidadInput').value = '1';
+  
+  // Limpiar completamente el contenedor de extras
+  const extrasContainer = document.getElementById('extrasContainer');
+  extrasContainer.innerHTML = '';
+  
+  // HTML específico para producto libre
+  extrasContainer.innerHTML = `
+    <div class="mb-4">
+      <label class="block mb-1">Descripción:</label>
+      <input type="text" id="descripcionProductoLibre" class="w-full border rounded px-2 py-1" 
+             placeholder="Ej: Combo especial" autocomplete="off">
+    </div>
+    <div class="mb-4">
+      <label class="block mb-1">Precio unitario:</label>
+      <input type="number" id="precioProductoLibre" class="w-full border rounded px-2 py-1" 
+             value="" min="0" onchange="actualizarPrecioProductoLibre()" autocomplete="off">
+    </div>
+  `;
+  
+  // Forzar el enfoque en el campo de descripción
+  setTimeout(() => {
+    document.getElementById('descripcionProductoLibre').focus();
+  }, 100);
+  
+  document.getElementById('modal').classList.remove('hidden');
+}
+
+// Nueva función para actualizar precio en tiempo real
+function actualizarPrecioProductoLibre() {
+  const cantidad = parseInt(document.getElementById('cantidadInput').value) || 1;
+  const precioUnitario = parseFloat(document.getElementById('precioProductoLibre').value) || 0;
+  const total = cantidad * precioUnitario;
+  document.getElementById('precioTotal').textContent = `$${total.toFixed(2)}`;
+    precioBase = precioUnitario;
+
+}
+
+function agregarProductoLibre() {
+  // 1. Obtener elementos del DOM
+  const descripcionInput = document.getElementById('descripcionProductoLibre');
+  const cantidadInput = document.getElementById('cantidadInput');
+  const precioInput = document.getElementById('precioProductoLibre');
+  
+  // 2. Obtener y validar valores
+  const descripcion = descripcionInput.value.trim();
+  const cantidad = parseInt(cantidadInput.value) || 1;
+  const precioUnitario = parseFloat(precioInput.value) || 0;
+
+  // 3. Validaciones estrictas
+  if (!descripcion) {
+    alert('Error: La descripción no puede estar vacía');
+    descripcionInput.focus();
+    return;
+  }
+  
+  if (isNaN(precioUnitario) || precioUnitario <= 0) {
+    alert('Error: Ingrese un precio válido mayor a 0');
+    precioInput.focus();
+    return;
+  }
+
+  // 4. Preparar datos para la comanda
+  const comandaNombre = document.getElementById('comandaSelect').value;
+  const precioTotal = cantidad * precioUnitario;
+  const comandaId = comandaNombre.replace(/\s+/g, '-');
+
+  // 5. Buscar o crear comanda
+  let comanda = comandas.find(c => c.id === comandaId);
+  if (!comanda) {
+    comanda = {
+      id: comandaId,
+      nombre: comandaNombre,
+      items: [],
+      total: 0
+    };
+    comandas.push(comanda);
+  }
+
+  // 6. Crear el item (VERSIÓN CORREGIDA)
+  const nuevoItem = {
+    descripcion: `${cantidad}x ${descripcion} ($${precioUnitario.toFixed(2)} c/u)`,
+    precio: precioTotal
+  };
+
+  console.log('Item a agregar:', nuevoItem); // Para depuración
+
+  // 7. Actualizar comanda
+  comanda.items.push(nuevoItem);
+  comanda.total += precioTotal;
+
+  // 8. Guardar y actualizar vista
+  guardarComandas();
+  renderizarComandas();
+  closeModal();
+}
+// Función especial para abrir el modal de refresco
+function openModalRefresco() {
+  productoSeleccionado = 'Refresco';
+  categoriaActual = 'María';
+  precioBase = 25;
+  
+  document.getElementById('modalTitle').textContent = 'Refresco';
+  document.getElementById('precioTotal').textContent = '$25.00';
+  document.getElementById('carneContainer').classList.add('hidden');
+  
+  const extrasContainer = document.getElementById('extrasContainer');
+  extrasContainer.innerHTML = '';
+  
+  const tamanios = [
+    { nombre: 'JARRITO', precio: 25 },
+    { nombre: 'AGUA GRANDE', precio: 16 },
+    { nombre: 'AGUA CHICA', precio: 12 },
+    { nombre: 'BOING', precio: 20 },
+    { nombre: 'CHICO', precio: 13 },
+    { nombre: 'Normal', precio: 25 },
+    { nombre: '2 litros', precio: 30 },
+    { nombre: '2.5 litros', precio: 30 },
+    { nombre: '3 litros', precio: 40 }
+  ];
+  
+  tamanios.forEach(tam => {
+    const div = document.createElement('div');
+    const radio = document.createElement('input');
+    radio.type = 'radio';
+    radio.name = 'tamanoRefresco'; // Asegurar que todos tengan el mismo name
+    radio.id = `extra-${tam.nombre.replace(/\s+/g, '-').toLowerCase()}`;
+    radio.value = tam.precio;
+    radio.onchange = function() {
+      precioBase = tam.precio;
+      calcularTotalRefresco();
+    };
+    
+    if (tam.nombre === 'Normal') {
+      radio.checked = true;
+    }
+    
+    const label = document.createElement('label');
+    label.htmlFor = radio.id;
+    label.textContent = `${tam.nombre} ($${tam.precio})`;
+    label.className = 'ml-2';
+    
+    div.appendChild(radio);
+    div.appendChild(label);
+    extrasContainer.appendChild(div);
+  });
+  
+  document.getElementById('modal').classList.remove('hidden');
+}
+
+function calcularTotalRefresco() {
+  const cantidad = parseInt(document.getElementById('cantidadInput').value) || 1;
+  const total = precioBase * cantidad;
+  document.getElementById('precioTotal').textContent = `$${total.toFixed(2)}`;
+  return total;
+}
+
+// Función para guardar comandas
+function guardarComandas() {
+  localStorage.setItem('comandasDigitales', JSON.stringify(comandas));
+}
+
+// Función para cargar comandas
+function cargarComandas() {
+  const comandasGuardadas = localStorage.getItem('comandasDigitales');
+  if (comandasGuardadas) {
+    comandas = JSON.parse(comandasGuardadas);
+    renderizarComandas();
+  }
+}
+
+// Configuración de comandas "Para llevar" - AHORA CON 6 OPCIONES
+function inicializarComandasParaLlevar() {
+  const comandaSelect = document.getElementById('comandaSelect');
+  comandaSelect.innerHTML = `
+    <option value="Mesa 1">Mesa 1</option>
+    <option value="Mesa 2">Mesa 2</option>
+    <option value="Mesa 3">Mesa 3</option>
+    <option value="Mesa 4">Mesa 4</option>
+    <option value="Para llevar 1">Para llevar 1</option>
+    <option value="Para llevar 2">Para llevar 2</option>
+    <option value="Para llevar 3">Para llevar 3</option>
+    <option value="Para llevar 4">Para llevar 4</option>
+    <option value="Para llevar 5">Para llevar 5</option>
+    <option value="Para llevar 6">Para llevar 6</option>
+    <option value="Nueva para llevar">+ Nueva para llevar</option>
+  `;
+
+  comandaSelect.addEventListener('change', function() {
+    if (this.value === 'Nueva para llevar') {
+      const nuevaComanda = prompt('Ingrese nombre/número para la nueva comanda para llevar:');
+      if (nuevaComanda) {
+        const newOption = new Option(`Para llevar ${nuevaComanda}`, `Para llevar ${nuevaComanda}`);
+        comandaSelect.add(newOption, comandaSelect.options.length - 1);
+        comandaSelect.value = `Para llevar ${nuevaComanda}`;
+      } else {
+        this.value = '';
+      }
+    }
+  });
+}
+
+// Función para renderizar comandas
+function renderizarComandas() {
+  const container = document.getElementById('comandasContainer');
+  container.innerHTML = '';
+  
+  comandas.forEach(comanda => {
+    console.log('Renderizando comanda:', comanda); // Debug
+    
+    const comandaDiv = document.createElement('div');
+    comandaDiv.id = `comanda-${comanda.id}`;
+    comandaDiv.className = 'bg-white p-4 rounded-xl shadow fade-in';
+    
+    comandaDiv.innerHTML = `
+      <h3 class="text-lg font-bold mb-2">${comanda.nombre}</h3>
+      <ul id="lista-${comanda.id}" class="list-disc pl-5">
+        ${comanda.items.map((item, index) => `
+          <li data-precio="${item.precio}">
+            ${item.descripcion} - $${item.precio.toFixed(2)}
+            <button onclick="eliminarItemComanda('${comanda.id}', ${index})" class="ml-2 text-red-500">
+              ×
+            </button>
+          </li>
+        `).join('')}
+      </ul>
+      <div class="mt-2 font-bold">Total: <span id="total-${comanda.id}">$${comanda.total.toFixed(2)}</span></div>
+      <div class="flex gap-2 mt-4">
+        <button onclick="imprimirComanda('${comanda.id}')" class="bg-blue-500 text-white px-4 py-2 rounded-full btn-hover btn-active flex-1">Imprimir</button>
+        <button onclick="finalizarComanda('${comanda.id}')" class="bg-red-500 text-white px-4 py-2 rounded-full btn-hover btn-active flex-1">Finalizar</button>
+      </div>
+    `;
+    
+    container.appendChild(comandaDiv);
+  });
+}
+// Función para eliminar items
+function eliminarItemComanda(comandaId, itemIndex) {
+  const comanda = comandas.find(c => c.id === comandaId);
+  if (comanda) {
+    // Restar el precio del item eliminado
+    comanda.total -= comanda.items[itemIndex].precio;
+    comanda.items.splice(itemIndex, 1);
+    
+    if (comanda.items.length === 0) {
+      comandas = comandas.filter(c => c.id !== comandaId);
+    }
+    
+    guardarComandas();
+    renderizarComandas();
+  }
+}
+
+// Función para abrir modal
+function openModal(producto, categoria, extras, precio, esEspecial = false) {
+  productoSeleccionado = producto;
+  precioBase = precio;
+  categoriaActual = categoria;
+  esProductoEspecial = esEspecial;
+  
+  document.getElementById('modalTitle').textContent = producto;
+  document.getElementById('precioTotal').textContent = `$${precio.toFixed(2)}`;
+  document.getElementById('cantidadInput').value = '1';
+  
+  const carneContainer = document.getElementById('carneContainer');
+  if (esEspecial) {
+    carneContainer.classList.remove('hidden');
+  } else {
+    carneContainer.classList.add('hidden');
+  }
+  
+  const extrasContainer = document.getElementById('extrasContainer');
+  extrasContainer.innerHTML = '';
+  
+  extras.forEach(extra => {
+    const div = document.createElement('div');
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.id = `extra-${extra.replace(/\s+/g, '-').toLowerCase()}`;
+    checkbox.value = extra;
+    checkbox.onchange = calcularTotal;
+    
+    const label = document.createElement('label');
+    label.htmlFor = checkbox.id;
+    label.textContent = extra;
+    label.className = 'ml-2';
+    
+    div.appendChild(checkbox);
+    div.appendChild(label);
+    extrasContainer.appendChild(div);
+  });
+  
+  document.getElementById('modal').classList.remove('hidden');
+}
+
+// Función para cerrar modal
+function closeModal() {
+  document.getElementById('modal').classList.add('hidden');
+}
+
+// Función para calcular total
+function calcularTotal() {
+  const cantidad = parseInt(document.getElementById('cantidadInput').value) || 1;
+  const extras = Array.from(document.querySelectorAll('#extrasContainer input[type="checkbox"]:checked'))
+                    .map(checkbox => checkbox.value);
+  
+  let precioExtras = 0;
+  extras.forEach(extra => {
+    const match = extra.match(/\(\+\$(\d+)\)/);
+    if (match) {
+      precioExtras += parseInt(match[1]);
+    }
+  });
+  
+  const total = (precioBase + precioExtras) * cantidad;
+  document.getElementById('precioTotal').textContent = `$${total.toFixed(2)}`;
+  return total;
+}
+
+// Función para agregar a comanda
+function agregarAComanda() {
+  const cantidad = parseInt(document.getElementById('cantidadInput').value) || 1;
+  const comandaNombre = document.getElementById('comandaSelect').value;
+  const precioItem = calcularTotal();
+  
+  let descripcion = `${cantidad}x ${productoSeleccionado}`;
+  
+  // Manejo especial para refrescos
+  if (productoSeleccionado === 'Refresco') {
+    const tamanoSeleccionado = document.querySelector('#extrasContainer input[name="tamanoRefresco"]:checked');
+    if (tamanoSeleccionado) {
+      const label = tamanoSeleccionado.nextElementSibling.textContent;
+      const nombreTamano = label.split(' (')[0]; // Extraer solo el nombre del tamaño
+      descripcion = `${cantidad}x ${productoSeleccionado} (${nombreTamano})`;
+    }
+  } 
+  // Manejo para productos especiales (como tacos, sopes, etc.)
+  else if (esProductoEspecial) {
+    const carne = document.getElementById('carneSelect').value;
+    descripcion += ` (${carne})`;
+    
+    const extras = Array.from(document.querySelectorAll('#extrasContainer input[type="checkbox"]:checked'))
+                      .map(checkbox => checkbox.value.replace(/\(\+\$\d+\)/g, '').trim());
+    
+    if (extras.length > 0) {
+      descripcion += ` ${extras.join(', ')}`;
+    }
+  }
+  // Manejo para productos normales
+  else {
+    const extras = Array.from(document.querySelectorAll('#extrasContainer input[type="checkbox"]:checked'))
+                      .map(checkbox => checkbox.value.replace(/\(\+\$\d+\)/g, '').trim());
+    
+    if (extras.length > 0) {
+      descripcion += ` ${extras.join(', ')}`;
+    }
+  }
+  
+  const comandaId = comandaNombre.replace(/\s+/g, '-');
+  let comandaExistente = comandas.find(c => c.id === comandaId);
+  
+  if (!comandaExistente) {
+    comandaExistente = {
+      id: comandaId,
+      nombre: comandaNombre,
+      items: [],
+      total: 0
+    };
+    comandas.push(comandaExistente);
+  }
+  
+  comandaExistente.items.push({
+    descripcion: descripcion,
+    precio: precioItem
+  });
+  
+  comandaExistente.total += precioItem;
+  guardarComandas();
+  renderizarComandas();
+  closeModal();
+}
+// Función para imprimir comanda
+async function imprimirComanda(comandaId) {
+  const comanda = comandas.find(c => c.id === comandaId);
+  if (!comanda) return;
+
+  const ticket = document.createElement('div');
+  ticket.className = 'ticket';
+  ticket.innerHTML = `
+    <div class="ticket-header">${comanda.nombre}</div>
+    <div class="ticket-date">${new Date().toLocaleString()}</div>
+    ${comanda.items.map(item => `
+      <div class="ticket-item">${item.descripcion} - $${item.precio.toFixed(2)}</div>
+    `).join('')}
+    <div class="ticket-total">Total: $${comanda.total.toFixed(2)}</div>
+  `;
+
+  document.body.appendChild(ticket);
+  
+  try {
+    const canvas = await html2canvas(ticket);
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF();
+    pdf.addImage(imgData, 'PNG', 10, 10, 190, 0);
+    pdf.save(`comanda-${comanda.nombre}.pdf`);
+  } catch (error) {
+    console.error('Error al generar PDF:', error);
+    alert('Error al generar el PDF. Por favor intente nuevamente.');
+  } finally {
+    document.body.removeChild(ticket);
+  }
+}
+
+async function finalizarComanda(comandaId) {
+  const comandaIndex = comandas.findIndex(c => c.id === comandaId);
+  if (comandaIndex === -1) {
+    console.error('Comanda no encontrada:', comandaId);
+    return;
+  }
+
+  try {
+    await imprimirComanda(comandaId);
+    
+    const confirmacion = confirm(`¿Estás seguro de finalizar la comanda de ${comandas[comandaIndex].nombre}?`);
+    if (!confirmacion) return;
+    
+    comandas.splice(comandaIndex, 1);
+    
+    guardarComandas();
+    renderizarComandas();
+    
+    console.log('Comanda finalizada correctamente:', comandaId);
+  } catch (error) {
+    console.error('Error al finalizar comanda:', error);
+    alert('Ocurrió un error al finalizar la comanda. Ver consola para detalles.');
+  }
+}
+
+function filtrarCategoria(categoria) {
+  const productos = document.querySelectorAll('.producto');
+  
+  productos.forEach(p => {
+    if (categoria === 'Todas' || p.dataset.categoria === categoria) {
+      p.classList.remove('hidden');
+      p.classList.add('fade-in');
+    } else {
+      p.classList.add('hidden');
+      p.classList.remove('fade-in');
+    }
+  });
+}
+
+// Event listeners
+document.getElementById('cantidadInput').addEventListener('input', function() {
+  if (productoSeleccionado === 'Producto Libre') {
+    actualizarPrecioProductoLibre();
+  } else if (productoSeleccionado === 'Refresco') {
+    calcularTotalRefresco();
+  } else {
+    calcularTotal();
+  }
+});
+
+// Inicialización
+document.addEventListener('DOMContentLoaded', function() {
+  inicializarComandasParaLlevar();
+  cargarComandas();
+});
+ </script>
+  <!-- Instrucciones para imágenes -->
+  
+
+ 
+</body>
+</html>

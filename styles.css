@@ -1,0 +1,102 @@
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.btn-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.btn-active:active {
+  transform: translateY(0);
+}
+.hidden {
+  display: none;
+}
+
+/* Estilo para el ticket */
+.ticket {
+  width: 80mm;
+  font-family: Arial, sans-serif;
+  padding: 10px;
+  margin: 0 auto;
+}
+.ticket-header {
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.ticket-item {
+  margin-bottom: 5px;
+}
+.ticket-total {
+  font-weight: bold;
+  margin-top: 10px;
+  border-top: 1px dashed #000;
+  padding-top: 5px;
+}
+
+/* Modo oscuro */
+.dark .bg-white {
+  background-color: #1f2937;
+}
+.dark .text-gray-800 {
+  color: #f3f4f6;
+}
+.dark .border-gray-200 {
+  border-color: #374151;
+}
+.dark .text-gray-600 {
+  color: #d1d5db;
+}
+
+/* Toast notification */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 12px 24px;
+  background-color: #10b981;
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.toast.show {
+  opacity: 1;
+}
+
+.toast.error {
+  background-color: #ef4444;
+}
+
+/* Estilos para el modal de impresión */
+.form-radio {
+  border-color: #d1d5db;
+}
+
+.form-radio:checked {
+  border-color: #10b981;
+  background-color: #10b981;
+}
+
+#printModal label {
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+#printModal label:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark #printModal label:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
